@@ -53,8 +53,8 @@ public class BatchConfig {
 		return r;
 	}
 
-	public PictureCropProcessor processor() {
-		return new PictureCropProcessor();
+	public ShapeProcessor processor() {
+		return new ShapeProcessor();
 	}
 
 	protected ItemWriter<PictureModel> writer(String dest) {

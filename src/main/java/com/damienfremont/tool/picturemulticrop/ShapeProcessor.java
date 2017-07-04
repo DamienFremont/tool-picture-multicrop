@@ -4,7 +4,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import org.springframework.batch.item.ItemProcessor;
 
-public class PictureCropProcessor implements ItemProcessor<PictureModel, PictureModel> {
+public class ShapeProcessor implements ItemProcessor<PictureModel, PictureModel> {
 
 	@Override
 	public PictureModel process(PictureModel item) throws Exception {

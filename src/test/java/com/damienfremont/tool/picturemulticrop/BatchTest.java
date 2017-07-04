@@ -1,3 +1,4 @@
+package com.damienfremont.tool.picturemulticrop;
 import org.junit.Test;
 
 import com.damienfremont.tool.picturemulticrop.Batch;

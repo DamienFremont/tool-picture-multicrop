@@ -18,6 +18,11 @@
 			<artifactId>lombok</artifactId>
 			<version>1.16.16</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>22.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -71,36 +76,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>2.53.0</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>selenium-chrome-driver</artifactId>
-					<groupId>org.seleniumhq.selenium</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>selenium-edge-driver</artifactId>
-					<groupId>org.seleniumhq.selenium</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>selenium-firefox-driver</artifactId>
-					<groupId>org.seleniumhq.selenium</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>selenium-ie-driver</artifactId>
-					<groupId>org.seleniumhq.selenium</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>selenium-safari-driver</artifactId>
-					<groupId>org.seleniumhq.selenium</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>htmlunit-driver</artifactId>
-			<version>2.20</version>
+			<groupId>org.boofcv</groupId>
+			<artifactId>all</artifactId>
+			<version>0.26</version>
 		</dependency>
 
 		<dependency>
@@ -109,6 +87,13 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.8.0</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
