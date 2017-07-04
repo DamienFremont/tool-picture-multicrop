@@ -35,7 +35,7 @@ public class BatchConfig {
 	@Value("${dest}")
 	String dest;
 
-	Integer maxMatches = 3;
+	Integer maxMatches = 4;
 	Double reduceWidth = 240.0;
 	Double padding = 0.02;
 

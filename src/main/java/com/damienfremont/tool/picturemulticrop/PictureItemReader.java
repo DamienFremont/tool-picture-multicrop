@@ -1,7 +1,6 @@
 package com.damienfremont.tool.picturemulticrop;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemStreamException;
@@ -14,7 +13,6 @@ import org.springframework.core.io.Resource;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 /**
