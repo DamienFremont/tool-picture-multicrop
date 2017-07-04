@@ -1,19 +1,26 @@
 package com.damienfremont.tool.picturemulticrop;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.MultiResourceItemReader;
+import org.springframework.batch.item.support.CompositeItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 @Configuration
 @EnableBatchProcessing
@@ -22,8 +29,13 @@ public class BatchConfig {
 
 	@Value("${src}")
 	String src;
+	@Value("${tpl}")
+	String tpl;
 	@Value("${dest}")
 	String dest;
+
+	Double optimWidth = 240.0;
+	Double padding = 0.02;
 
 	@Autowired
 	JobBuilderFactory jobs;
@@ -42,22 +54,45 @@ public class BatchConfig {
 	Step step() throws Exception {
 		return steps.get("crop").<PictureModel, PictureModel> chunk(1) //
 				.reader(reader(src + "/*.jpg")) //
-				.processor(processor()) //
+				.processor(processors()) //
 				.writer(writer(dest)).build();
 	}
 
 	protected ItemReader<PictureModel> reader(String src) throws Exception {
-		MultiResourceItemReader<PictureModel> r = new MultiResourceItemReader<PictureModel>();
-		r.setResources(new ResourcesFactoryBean(src).createInstance());
-		r.setDelegate(new PictureItemReader<PictureModel>());
-		return r;
+		Resource[] res = new ResourcesFactoryBean(src).createInstance();
+		PictureItemReader<PictureModel> ir = new PictureItemReader<PictureModel>();
+		MultiResourceItemReader<PictureModel> mri = new MultiResourceItemReader<PictureModel>();
+		mri.setResources(res);
+		mri.setDelegate(ir);
+		return mri;
 	}
 
-	public ShapeProcessor processor() {
-		return new ShapeProcessor();
+	public ItemProcessor<PictureModel, PictureModel> processors() {
+		CompositeItemProcessor<PictureModel, PictureModel> cip = new CompositeItemProcessor<>();
+		List<ItemProcessor<PictureModel, PictureModel>> ips = new ArrayList<>();
+		ips.add(processor1());
+		ips.add(processor2());
+		ips.add(processor3());
+		cip.setDelegates(ips);
+		return cip;
+	}
+
+	private ImageFindProcessor processor1() {
+		return new ImageFindProcessor(tpl, optimWidth);
+	}
+
+	private ImageCoordProcessor processor2() {
+		return new ImageCoordProcessor(tpl);
+	}
+
+	private ImageCropProcessor processor3() {
+		return new ImageCropProcessor(padding);
 	}
 
 	protected ItemWriter<PictureModel> writer(String dest) {
+		File f = new File(dest);
+		if (!f.exists())
+			f.mkdirs();
 		return new PictureItemWriter(new FileSystemResource(dest));
 	}
 

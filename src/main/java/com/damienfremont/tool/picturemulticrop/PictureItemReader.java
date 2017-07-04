@@ -17,7 +17,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,10 +32,12 @@ public class PictureItemReader<T> implements ResourceAwareItemReaderItemStream<P
 	@Override
 	public PictureModel read()
 			throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
-		BufferedImage img;
+
+		log.info(resource.toString());
+		
 		try {
-			img = ImageIO.read(resource.getURL());
-			return new PictureModel(img);
+			BufferedImage img = ImageIO.read(resource.getURL());
+			return new PictureModel(resource.getFile().toPath().toString(), img);
 		} catch (IOException e) {
 			throw new ItemStreamException(e);
 		}

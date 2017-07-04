@@ -10,9 +10,9 @@ public class BatchTest {
 	@Test
 	public void single() {
 		Batch.main(new String[] { //
-//				"--src=src/test/resources/single", //
-				"--src=" + path + "\\src\\test\\resources\\single", //
-				"--dest=" + path + "\\target\\test-class\\single-result" });
+				"--src=" + path + "\\src\\test\\resources\\usecase-single", //
+				"--tpl=" + path + "\\src\\main\\resources\\template.jpg", //
+				"--dest=" + path + "\\target\\test-classes\\usecase-single-result" });
 	}
 
 }
