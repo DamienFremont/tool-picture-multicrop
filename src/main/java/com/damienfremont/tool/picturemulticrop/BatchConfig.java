@@ -13,6 +13,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.MultiResourceItemReader;
+import org.springframework.batch.item.file.ResourceAwareItemReaderItemStream;
 import org.springframework.batch.item.support.CompositeItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +35,8 @@ public class BatchConfig {
 	@Value("${dest}")
 	String dest;
 
-	Double optimWidth = 240.0;
+	Integer maxMatches = 3;
+	Double reduceWidth = 240.0;
 	Double padding = 0.02;
 
 	@Autowired
@@ -60,7 +62,7 @@ public class BatchConfig {
 
 	protected ItemReader<PictureModel> reader(String src) throws Exception {
 		Resource[] res = new ResourcesFactoryBean(src).createInstance();
-		PictureItemReader<PictureModel> ir = new PictureItemReader<PictureModel>();
+		ResourceAwareItemReaderItemStream<PictureModel> ir = new PictureItemReader();
 		MultiResourceItemReader<PictureModel> mri = new MultiResourceItemReader<PictureModel>();
 		mri.setResources(res);
 		mri.setDelegate(ir);
@@ -78,7 +80,7 @@ public class BatchConfig {
 	}
 
 	private ImageFindProcessor processor1() {
-		return new ImageFindProcessor(tpl, optimWidth);
+		return new ImageFindProcessor(tpl, reduceWidth, maxMatches);
 	}
 
 	private ImageCoordProcessor processor2() {

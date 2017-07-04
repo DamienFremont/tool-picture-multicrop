@@ -29,8 +29,10 @@ public class ImageFindProcessor implements ItemProcessor<PictureModel, PictureMo
 	@NonNull
 	String tpl;
 	@NonNull
-	Double optimWidth = 240.0;
-
+	Double reduceWidth = 240.0;
+	@NonNull
+	Integer maxMatches = 4;
+	
 	@Override
 	public PictureModel process(PictureModel item) throws Exception {
 		checkArgument(null != item);
@@ -42,7 +44,7 @@ public class ImageFindProcessor implements ItemProcessor<PictureModel, PictureMo
 		BufferedImage template = UtilImageIO.loadImage(UtilIO.pathExample(tpl));
 
 		int originalWidth = image.getWidth();
-		double ratio = (optimWidth / originalWidth);
+		double ratio = (reduceWidth / originalWidth);
 		image = resize(image, (int) (ratio * image.getWidth()), (int) (ratio * image.getHeight()));
 		template = resize(template, (int) (ratio * template.getWidth()), (int) (ratio * template.getHeight()));
 
@@ -60,7 +62,7 @@ public class ImageFindProcessor implements ItemProcessor<PictureModel, PictureMo
 				GrayF32.class);
 
 		matcher.setImage(image);
-		matcher.setTemplate(template, null, 4);
+		matcher.setTemplate(template, null, maxMatches);
 		matcher.process();
 		return matcher.getResults().toList();
 	}
