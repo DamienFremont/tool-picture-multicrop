@@ -1,9 +1,6 @@
 package com.damienfremont.tool.picturemulticrop;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemStreamException;
@@ -17,7 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -34,10 +30,9 @@ public class PictureItemReader<T> implements ResourceAwareItemReaderItemStream<P
 			throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
 
 		log.info(resource.toString());
-		
+
 		try {
-			BufferedImage img = ImageIO.read(resource.getURL());
-			return new PictureModel(resource.getFile().toPath().toString(), img);
+			return new PictureModel(resource.getFile().toPath().toString());
 		} catch (IOException e) {
 			throw new ItemStreamException(e);
 		}

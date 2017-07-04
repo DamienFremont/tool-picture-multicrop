@@ -29,6 +29,8 @@ public class ImageCropProcessor implements ItemProcessor<PictureModel, PictureMo
 		checkArgument(!item.crops.isEmpty());
 
 		log.info(item.path);
+		
+		BufferedImage image = UtilImageIO.loadImage(UtilIO.pathExample(item.path));
 
 		List<PictureModel.Dest> dests = new ArrayList<>();
 		for (PictureModel.Rect i : item.crops) {
@@ -36,7 +38,6 @@ public class ImageCropProcessor implements ItemProcessor<PictureModel, PictureMo
 			
 			log.info("-- rect: " + i.x + "," + i.y);
 
-			BufferedImage image = UtilImageIO.loadImage(UtilIO.pathExample(item.path));
 			int x = (int) (i.x + i.x * padding);
 			int y = (int) (i.y + i.y * padding);
 			int w = (int) (i.w - i.w * padding);

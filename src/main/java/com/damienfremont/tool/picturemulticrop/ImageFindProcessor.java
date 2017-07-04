@@ -35,7 +35,6 @@ public class ImageFindProcessor implements ItemProcessor<PictureModel, PictureMo
 	public PictureModel process(PictureModel item) throws Exception {
 		checkArgument(null != item);
 		checkArgument(isNotBlank(item.path));
-		checkArgument(null != item.img);
 
 		log.info(item.path);
 

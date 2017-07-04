@@ -31,7 +31,9 @@ public class PictureItemWriter implements ItemWriter<PictureModel> {
 	@Override
 	public void write(List<? extends PictureModel> items) throws Exception {
 		checkArgument(null != items);
-
+		
+		log.info("chunk");
+		
 		String parent = resource.getFile().toString();
 
 		for (PictureModel item : items) {

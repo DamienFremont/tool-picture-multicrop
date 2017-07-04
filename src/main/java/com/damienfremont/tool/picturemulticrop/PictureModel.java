@@ -16,8 +16,6 @@ public class PictureModel {
 	// 1
 	@NonNull
 	public String path;
-	@NonNull
-	public BufferedImage img;
 
 	// 2
 	public List<Match> matchs;
