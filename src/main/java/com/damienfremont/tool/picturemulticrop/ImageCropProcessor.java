@@ -29,19 +29,23 @@ public class ImageCropProcessor implements ItemProcessor<PictureModel, PictureMo
 		checkArgument(!item.crops.isEmpty());
 
 		log.info(item.path);
-		
+
 		BufferedImage image = UtilImageIO.loadImage(UtilIO.pathExample(item.path));
 
 		List<PictureModel.Dest> dests = new ArrayList<>();
 		for (PictureModel.Rect i : item.crops) {
 			checkArgument(-1 != i.x);
-			
+
 			log.info("-- rect: " + i.x + "," + i.y);
 
 			int x = (int) (i.x + i.x * padding);
 			int y = (int) (i.y + i.y * padding);
 			int w = (int) (i.w - i.w * padding);
 			int h = (int) (i.h - i.h * padding);
+
+			w = (x + w > image.getWidth()) ? (image.getWidth() - x) : w;
+			h = (y + h > image.getHeight()) ? (image.getHeight() - y) : h;
+
 			BufferedImage img = image.getSubimage(x, y, w, h);
 
 			dests.add(new PictureModel.Dest(img));
